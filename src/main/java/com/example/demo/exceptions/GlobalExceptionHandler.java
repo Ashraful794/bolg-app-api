@@ -16,12 +16,16 @@ import com.example.demo.payloads.ApiResponse;
 public class GlobalExceptionHandler {
 
 	@ExceptionHandler(ResourceNotFoundException.class)
+	
 	public ResponseEntity<ApiResponse> resourceNotFoundException(ResourceNotFoundException ex)
 	{
 		String message=ex.getMessage();
 		ApiResponse apiResponse=new ApiResponse(message,false); 
 		return new ResponseEntity<ApiResponse>(apiResponse,HttpStatus.NOT_FOUND);
 	}
+	
+	
+	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public ResponseEntity<Map<String,String>> handleMethodArgsNotValidException(MethodArgumentNotValidException ex)
 	{

@@ -32,4 +32,6 @@ public class UserDto {
 	private String about;
 	
 	private Set<CommentDto> comments=new HashSet<>();
+	
+	private Set<ReactionDto> reacts=new HashSet<>();
 }

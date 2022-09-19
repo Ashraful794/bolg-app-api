@@ -23,5 +23,14 @@ public class ResourceNotFoundException extends RuntimeException {
 	}
 	
 	
+	
+//	public ResourceNotFoundException() 
+//	
+//	{
+//		super(String.format("%s not found with %s : %s",resourceName,fieldName,fieldvalue));
+//	}
+
+	
+	
 
 }

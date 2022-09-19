@@ -25,7 +25,7 @@ public class Post {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Integer postId;
+	private Integer id;
 	
 	private String title;
 	
@@ -38,5 +38,8 @@ public class Post {
 	
 	@OneToMany(mappedBy="post",cascade=CascadeType.ALL)
 	private Set<Comment> comments=new HashSet<>();
+	
+	@OneToMany(mappedBy="post",cascade=CascadeType.ALL)
+	private Set<Reaction> reactions=new HashSet<>();
 
 }
