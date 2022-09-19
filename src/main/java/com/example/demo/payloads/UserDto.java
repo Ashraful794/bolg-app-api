@@ -1,5 +1,8 @@
 package com.example.demo.payloads;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
@@ -27,4 +30,6 @@ public class UserDto {
 
 	@NotEmpty
 	private String about;
+	
+	private Set<CommentDto> comments=new HashSet<>();
 }

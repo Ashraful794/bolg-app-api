@@ -20,6 +20,7 @@ import com.example.demo.services.PostService;
 
 @RestController
 @RequestMapping("/api/")
+
 public class PostController {
 	
 	@Autowired 

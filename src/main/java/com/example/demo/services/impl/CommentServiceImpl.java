@@ -6,10 +6,12 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.entities.Comment;
 import com.example.demo.entities.Post;
+import com.example.demo.entities.User;
 import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.payloads.CommentDto;
 import com.example.demo.repositories.CommentRepo;
 import com.example.demo.repositories.PostRepo;
+import com.example.demo.repositories.UserRepo;
 import com.example.demo.services.CommentService;
 
 @Service
@@ -17,6 +19,9 @@ public class CommentServiceImpl implements CommentService {
 
 	@Autowired
 	private PostRepo postRepo;
+	
+	@Autowired
+	private UserRepo userRepo;
 	
 	@Autowired
 	private ModelMapper modelMapper;
@@ -27,14 +32,19 @@ public class CommentServiceImpl implements CommentService {
 	
 	
 	@Override
-	public CommentDto createComment(CommentDto commentDto, Integer postId) {
+	public CommentDto createComment(CommentDto commentDto, Integer postId,Integer userId) {
 		// TODO Auto-generated method stub
 
 		Post post=this.postRepo.findById(postId).orElseThrow(()-> new ResourceNotFoundException("Post","Post id",postId));
 		
+		User user=this.userRepo.findById(userId).orElseThrow(()-> new ResourceNotFoundException("User","User id",userId));
+		
+		
 		Comment comment=this.modelMapper.map(commentDto,Comment.class);
 		
 		comment.setPost(post);
+		
+		comment.setUser(user);
 		
 		Comment savedComment=this.commentRepo.save(comment);
 		
