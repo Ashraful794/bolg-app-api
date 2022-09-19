@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entities.Post;
 import com.example.demo.entities.Reaction;
 import com.example.demo.entities.User;
+import com.example.demo.exceptions.Exceptions;
 import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.payloads.ReactionDto;
 import com.example.demo.repositories.PostRepo;
@@ -39,12 +41,12 @@ public class ReactionServiceImpl implements ReactionService {
 		
 		Post post=this.postRepo.findById(postId).orElseThrow(()-> new ResourceNotFoundException("Post","Post id",postId));
 		
-				
 		if(user.getId()==post.getUser().getId())
 		{
-			return null;
+			throw new Exceptions("Can't Like or Dislike this Post",HttpStatus.UNAUTHORIZED);
 		}
 		
+		//If User React the Post or Not
 		Integer reactId=userReactOrNot(user,post);
 		
 		if(reactId!=null)

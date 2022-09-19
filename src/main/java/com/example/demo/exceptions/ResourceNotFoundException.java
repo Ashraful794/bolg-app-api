@@ -1,11 +1,15 @@
 package com.example.demo.exceptions;
 
+import org.springframework.http.HttpStatus;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 @NoArgsConstructor
 @Getter
 @Setter
+
 public class ResourceNotFoundException extends RuntimeException {
 	
 	String resourceName;
@@ -23,14 +27,5 @@ public class ResourceNotFoundException extends RuntimeException {
 	}
 	
 	
-	
-//	public ResourceNotFoundException() 
-//	
-//	{
-//		super(String.format("%s not found with %s : %s",resourceName,fieldName,fieldvalue));
-//	}
+}	
 
-	
-	
-
-}

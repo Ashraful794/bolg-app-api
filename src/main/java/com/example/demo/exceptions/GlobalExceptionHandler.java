@@ -40,5 +40,13 @@ public class GlobalExceptionHandler {
 	}
 	
 	
+	@ExceptionHandler(Exceptions.class)
+	
+	public ResponseEntity<String> exceptions(Exceptions exceptions)
+	{
+		return new ResponseEntity<String>(exceptions.getErrorMessage(),exceptions.getErrorCode());
+	}
+	
+	
 	
 }
