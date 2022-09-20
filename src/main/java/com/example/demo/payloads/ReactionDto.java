@@ -16,9 +16,9 @@ public class ReactionDto {
 
 	private Reacts react;
 		
-	private UserDto user;
-	
-	private PostDto post;
+//	private UserDto user;
+//	
+//	private PostDto post;
 
 
 }

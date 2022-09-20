@@ -2,6 +2,7 @@ package com.example.demo.services;
 
 import java.util.List;
 
+
 import com.example.demo.payloads.PostDto;
 
 public interface PostService {
@@ -17,6 +18,12 @@ public interface PostService {
 	PostDto getPostById(Integer postId);
 	
 	List<PostDto> getPostsByUser(Integer userId);
+	
+//	List<CommentDto> getPostComments(Integer postId);
+	
+//	List<Reaction> getPostReaction(Integer reactionId);
+	
+	
 	
 	
 }

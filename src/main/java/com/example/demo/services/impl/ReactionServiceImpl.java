@@ -1,6 +1,7 @@
 package com.example.demo.services.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ public class ReactionServiceImpl implements ReactionService {
 		}
 		
 		//If User React the Post or Not
-		Integer reactId=userReactOrNot(user,post);
+		Integer reactId=userReactOrNot(userId,postId);
 		
 		if(reactId!=null)
 		{						
@@ -69,20 +70,12 @@ public class ReactionServiceImpl implements ReactionService {
 	}
 	
 	
-	public Integer userReactOrNot(User user,Post post)
+	public Integer userReactOrNot(Integer userId,Integer postId)
 	{
 		
-		List<Reaction> reaction =this.reactionRepo.findAll();
-				
-		for(Reaction react:reaction)
-		{
-			if(react.getPost().getId()== post.getId() &&  react.getUser().getId()==user.getId())
-			{
-				return react.getId();
-			}
-		}
-		
-		return null;
+		Reaction reaction=this.reactionRepo.findByUserIdAndPostId(userId,postId);
+						
+		return reaction.getId();
 	}
 
 
@@ -106,6 +99,17 @@ public class ReactionServiceImpl implements ReactionService {
 				
 		return this.modelMapper.map(updateReaction, ReactionDto.class);			
 		
+	}
+
+
+	@Override
+	public List<ReactionDto> getPostReactions(Integer postId) {
+		// TODO Auto-generated method stub
+		List<Reaction> reactionlist=this.reactionRepo.findByPostId(postId);
+				
+		List<ReactionDto> reactionListDto=reactionlist.stream().map(reaction->this.modelMapper.map(reaction, ReactionDto.class)).collect(Collectors.toList());
+		
+		return reactionListDto;
 	}
 	
 	

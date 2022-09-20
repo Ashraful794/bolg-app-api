@@ -7,6 +7,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+//import org.springframework.security.authentication.AuthenticationManager;
+//import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,9 +18,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+//import com.example.demo.entities.AuthRequest;
 import com.example.demo.payloads.ApiResponse;
 import com.example.demo.payloads.UserDto;
 import com.example.demo.services.UserService;
+//import com.example.demo.util.JwtUtil;
 
 @RestController
 @RequestMapping("api/users")
@@ -26,6 +30,8 @@ public class UserController {
 	
 	@Autowired
 	UserService userService;
+	
+	
 	
 	@PostMapping("/")
 	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto ){
@@ -61,5 +67,9 @@ public class UserController {
 	{
 		return ResponseEntity.ok(this.userService.getUserById(userid));
 	}
+	
+	
+	
+	
 
 }

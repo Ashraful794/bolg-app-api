@@ -1,5 +1,8 @@
 package com.example.demo.services.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +12,7 @@ import com.example.demo.entities.Post;
 import com.example.demo.entities.User;
 import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.payloads.CommentDto;
+import com.example.demo.payloads.PostDto;
 import com.example.demo.repositories.CommentRepo;
 import com.example.demo.repositories.PostRepo;
 import com.example.demo.repositories.UserRepo;
@@ -56,11 +60,19 @@ public class CommentServiceImpl implements CommentService {
 	public void deleteComment(Integer commentId) {
 		// TODO Auto-generated method stub
 		
-		Comment com=this.commentRepo.findById(commentId).orElseThrow(()-> new ResourceNotFoundException("Comment","Comment id",commentId));
+		Comment comment=this.commentRepo.findById(commentId).orElseThrow(()-> new ResourceNotFoundException("Comment","Comment id",commentId));
 		
-		this.commentRepo.delete(com);
+		this.commentRepo.delete(comment);
 		
 		
+	}
+
+	@Override
+	public List<CommentDto> getPostComments(Integer postId) {
+		// TODO Auto-generated method stub
+		List<Comment> commentlist=this.commentRepo.findByPostId(postId);				
+		List<CommentDto> commentDto=commentlist.stream().map(comment->this.modelMapper.map(comment, CommentDto.class)).collect(Collectors.toList());
+		return commentDto;
 	}
 
 }

@@ -20,11 +20,11 @@ public class PostDto {
 	
 	private Date addedDate;
 		
-	private UserDto user;
+//	private UserDto user;
 	
-	private Set<CommentDto> comments=new HashSet<>();
-	
-	private Set<ReactionDto> reacts=new HashSet<>();
+//	private Set<CommentDto> comments=new HashSet<>();
+//	
+//	private Set<ReactionDto> reacts=new HashSet<>();
 	
 	
 
