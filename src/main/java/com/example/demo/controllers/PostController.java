@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.payloads.ApiResponse;
 import com.example.demo.payloads.PostDto;
@@ -69,6 +70,14 @@ public class PostController {
 		return new ResponseEntity<PostDto>(updatePost,HttpStatus.OK);
 	}
 	
+	@GetMapping("/posts/{userId}/getall")
+	public ModelAndView getPost(@PathVariable Integer userId)
+	{
+		ModelAndView mav=new ModelAndView("Post");
+		List<PostDto> postlist=this.postService.getAllPost();
+		mav.addObject("posts",postlist);
+		return mav;
+	}
 	
 	
 	

@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 //import org.springframework.security.authentication.AuthenticationManager;
 //import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,7 +28,8 @@ import com.example.demo.services.UserService;
 //import com.example.demo.util.JwtUtil;
 
 @RestController
-@RequestMapping("api/users")
+@Controller
+@RequestMapping("/api/users")
 public class UserController {
 	
 	@Autowired
@@ -70,27 +72,27 @@ public class UserController {
 		return ResponseEntity.ok(this.userService.getUserById(userid));
 	}
 	
-//	@GetMapping("/showUsers")
-//	public ModelAndView showUsers()
-//	{
-//		ModelAndView mav=new ModelAndView("UserList");
-//		List<UserDto> userList=this.userService.getAllUsers();
-//		mav.addObject("users",userList);
-//		return mav;
-//		
-//	}
-//	@GetMapping("/registration")
-//	public ModelAndView registration() {
-//		ModelAndView mav = new ModelAndView("Registration");
-//		UserDto newUser = new UserDto();
-//		mav.addObject("user", newUser);
-//		return mav;
-//	}
-//	@PostMapping("/saveUser")
-//	public String registration(@ModelAttribute UserDto userDto) {
-//		this.userService.createUser(userDto);
-//		return "redirect:api/users/showUsers";
-//	}
+	@GetMapping("/showUsers")
+	public ModelAndView showUsers()
+	{
+		ModelAndView mav=new ModelAndView("UserList");
+		List<UserDto> userList=this.userService.getAllUsers();
+		mav.addObject("users",userList);
+		return mav;
+		
+	}
+	@GetMapping("/registration")
+	public ModelAndView registration() {
+		ModelAndView mav = new ModelAndView("Registration");
+		UserDto newUser = new UserDto();
+		mav.addObject("user", newUser);
+		return mav;
+	}
+	@PostMapping("/saveUser")
+	public String registration(@ModelAttribute UserDto userDto) {
+		this.userService.createUser(userDto);
+		return "redirect:/api/users/showUsers";
+	}
 	
 
 }
