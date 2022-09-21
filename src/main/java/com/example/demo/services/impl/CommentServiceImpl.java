@@ -5,11 +5,13 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entities.Comment;
 import com.example.demo.entities.Post;
 import com.example.demo.entities.User;
+import com.example.demo.exceptions.Exceptions;
 import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.payloads.CommentDto;
 import com.example.demo.payloads.PostDto;
@@ -57,10 +59,18 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public void deleteComment(Integer commentId) {
+	public void deleteComment(Integer commentId,Integer userId) {
 		// TODO Auto-generated method stub
 		
-		Comment comment=this.commentRepo.findById(commentId).orElseThrow(()-> new ResourceNotFoundException("Comment","Comment id",commentId));
+		this.commentRepo.findById(commentId).orElseThrow(()-> new ResourceNotFoundException("Comment","Comment id",commentId));
+		
+		Comment comment=this.commentRepo.findByIdAndUserId(commentId, userId);
+		
+		if(comment==null)
+		{
+			throw new Exceptions("Can't Delete this Comment",HttpStatus.UNAUTHORIZED);
+		}
+
 		
 		this.commentRepo.delete(comment);
 		

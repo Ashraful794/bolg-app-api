@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.demo.payloads.ApiResponse;
 import com.example.demo.payloads.PostDto;
+import com.example.demo.payloads.UserDto;
 import com.example.demo.services.PostService;
 
 @RestController
@@ -55,12 +57,12 @@ public class PostController {
 		return new ResponseEntity<PostDto>(postDto,HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/post/{postId}")
-	public ApiResponse deletePost(@PathVariable Integer postId)
+	@DeleteMapping("/post/{postId}/user/{userId}")
+	public ResponseEntity<ApiResponse> deletePost(@PathVariable Integer postId,@PathVariable Integer userId)
 	{
-		this.postService.deletePost(postId);
+		this.postService.deletePost(postId,userId);
 		
-		return new ApiResponse("Post is Successfully Deleted",true);
+		return new ResponseEntity<ApiResponse>(new ApiResponse("Post is Successfully Deleted",true),HttpStatus.OK);
 	}
 	
 	@PutMapping("/posts/{postId}")
@@ -79,6 +81,24 @@ public class PostController {
 		return mav;
 	}
 	
+	
+	
+	@GetMapping("/createpost/{userId}")
+	public ModelAndView createPost(@PathVariable Integer userId) {
+
+		ModelAndView mav = new ModelAndView("CreatePost");
+		mav.addObject("userId", userId);
+		return mav;
+	}
+	
+//	@PostMapping("/post/submit")
+//	public String savePost(@ModelAttribute PostDto postDto)
+//	{		
+//		
+////		this.postService.createPost(postDto,userId);		
+//		return "redirect:/api/posts/{userId}/getall";
+//	}
+
 	
 	
 

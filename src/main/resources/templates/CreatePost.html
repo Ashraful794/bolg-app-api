@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Registration</title>
+<title>Create Post</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
@@ -38,38 +38,29 @@
 						to our awesome app!</div>
 				</div>
 
-				<h1>Registration</h1>
+				<h1>Create Post</h1>
 
-				<form th:action="@{/api/users/saveUser}" method="post" th:object="${user}">
+				<form th:action="@{/api/post/submit}" method="post">
+				
 					<div class="form-group">
-						<label class="control-label" for="Name"> Name </label> <input
-							id="name" class="form-control" th:field="*{name}" required
+						<label class="control-label" for="title" > Title </label> 
+						<input	id="title" class="form-control" name="title"  required autofocus="autofocus" />
+					</div>
+					
+<!-- 					 <h1 th:text="${userId}"> </h1>  -->
+
+					<div class="form-group">
+						<label class="control-label" for="content"> Content </label>
+						 <input
+							id="content" name="content" class="form-control"  required
 							autofocus="autofocus" />
 					</div>
-
-
-					<div class="form-group">
-						<label class="control-label" for="email"> Email </label> <input
-							id="email" class="form-control" th:field="*{email}" required
-							autofocus="autofocus" />
-					</div>
+					 <input type="hidden" id="userId" name="userId" value="${userId}">
 
 					<div class="form-group">
-						<label class="control-label" for="password"> Password </label> <input
-							id="password" class="form-control" type="password"
-							th:field="*{password}" required autofocus="autofocus" />
+						<button type="submit" class="btn btn-success">Submit</button>
 					</div>
-					<div class="form-group">
-						<label class="control-label" for="about"> About </label> <input
-							id="about" class="form-control" 
-							th:field="*{about}" required autofocus="autofocus" />
-					</div>
-
-
-					<div class="form-group">
-						<button type="submit" class="btn btn-success">Register</button>
-					</div>
-
+					
 				</form>
 			</div>
 		</div>

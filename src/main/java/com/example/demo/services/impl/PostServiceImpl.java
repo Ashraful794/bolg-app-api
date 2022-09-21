@@ -6,10 +6,12 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entities.Post;
 import com.example.demo.entities.User;
+import com.example.demo.exceptions.Exceptions;
 import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.payloads.PostDto;
 import com.example.demo.repositories.PostRepo;
@@ -59,10 +61,18 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
-	public void deletePost(Integer postId) {
+	public void deletePost(Integer postId,Integer userId) {
 		// TODO Auto-generated method stub
 		
-		Post post=this.postRepo.findById(postId).orElseThrow(()-> new ResourceNotFoundException("Post","Post id",postId) );
+		this.postRepo.findById(postId).orElseThrow(()-> new ResourceNotFoundException("Post","Post id",postId) );
+		
+		Post post=this.postRepo.findByIdAndUserId(postId, userId);
+		
+		if(post==null)
+		{
+			throw new Exceptions("Can't Delete this Post",HttpStatus.UNAUTHORIZED);
+		}
+		
 		this.postRepo.delete(post);
 		
 	}

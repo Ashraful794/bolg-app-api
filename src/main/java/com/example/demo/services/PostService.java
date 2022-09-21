@@ -11,7 +11,7 @@ public interface PostService {
 
 	PostDto updatePost(PostDto postDto,Integer postId);
 	
-	void deletePost(Integer postId);
+	void deletePost(Integer postId,Integer userId);
 	
 	List<PostDto> getAllPost();
 	

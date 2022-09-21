@@ -7,7 +7,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 //import org.springframework.security.authentication.AuthenticationManager;
 //import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,14 +27,11 @@ import com.example.demo.services.UserService;
 //import com.example.demo.util.JwtUtil;
 
 @RestController
-@Controller
 @RequestMapping("/api/users")
 public class UserController {
 	
 	@Autowired
-	UserService userService;
-	
-	
+	UserService userService;	
 	
 	@PostMapping("/")
 	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto ){

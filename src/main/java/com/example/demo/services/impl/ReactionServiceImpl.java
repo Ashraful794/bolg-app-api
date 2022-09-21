@@ -1,6 +1,7 @@
 package com.example.demo.services.impl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -50,7 +51,7 @@ public class ReactionServiceImpl implements ReactionService {
 		//If User React the Post or Not
 		Integer reactId=userReactOrNot(userId,postId);
 		
-		if(reactId!=null)
+		if(reactId!=-1)
 		{						
 			return updateReact(reactionDto,reactId,userId,postId);
 			
@@ -74,8 +75,13 @@ public class ReactionServiceImpl implements ReactionService {
 	{
 		
 		Reaction reaction=this.reactionRepo.findByUserIdAndPostId(userId,postId);
-						
-		return reaction.getId();
+		
+		if(reaction!=null)
+		{
+			return reaction.getId();
+		}
+		
+		return -1;
 	}
 
 
@@ -110,6 +116,25 @@ public class ReactionServiceImpl implements ReactionService {
 		List<ReactionDto> reactionListDto=reactionlist.stream().map(reaction->this.modelMapper.map(reaction, ReactionDto.class)).collect(Collectors.toList());
 		
 		return reactionListDto;
+	}
+
+
+	@Override
+	public void deleteReact(Integer reactionId, Integer userId) {
+		// TODO Auto-generated method stub
+		
+		this.reactionRepo.findById(reactionId).orElseThrow(()-> new ResourceNotFoundException("Reaction","Reaction id",reactionId) );
+		
+		Reaction reaction=this.reactionRepo.findByIdAndUserId(reactionId,userId);
+		
+		if(reaction==null)
+		{
+			throw new Exceptions("Can't Delete this React",HttpStatus.UNAUTHORIZED);
+
+		}
+		
+		this.reactionRepo.delete(reaction);
+		
 	}
 	
 	

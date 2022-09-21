@@ -12,5 +12,7 @@ public interface ReactionService {
 	ReactionDto updateReact(ReactionDto reactionDto, Integer reactId ,Integer userId, Integer postId);
 	
 	List<ReactionDto> getPostReactions(Integer postId); 
+	
+	void deleteReact(Integer reactionId,Integer userId);
 
 }

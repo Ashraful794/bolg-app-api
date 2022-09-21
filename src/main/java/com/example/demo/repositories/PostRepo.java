@@ -12,5 +12,6 @@ import com.example.demo.entities.User;
 public interface PostRepo extends JpaRepository<Post,Integer>{
 	
 	List<Post> findByUser(User user);
+	Post findByIdAndUserId(Integer id,Integer userId);
 
 }
