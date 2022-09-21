@@ -11,12 +11,14 @@ import org.springframework.http.ResponseEntity;
 //import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 //import com.example.demo.entities.AuthRequest;
 import com.example.demo.payloads.ApiResponse;
@@ -68,8 +70,27 @@ public class UserController {
 		return ResponseEntity.ok(this.userService.getUserById(userid));
 	}
 	
-	
-	
+//	@GetMapping("/showUsers")
+//	public ModelAndView showUsers()
+//	{
+//		ModelAndView mav=new ModelAndView("UserList");
+//		List<UserDto> userList=this.userService.getAllUsers();
+//		mav.addObject("users",userList);
+//		return mav;
+//		
+//	}
+//	@GetMapping("/registration")
+//	public ModelAndView registration() {
+//		ModelAndView mav = new ModelAndView("Registration");
+//		UserDto newUser = new UserDto();
+//		mav.addObject("user", newUser);
+//		return mav;
+//	}
+//	@PostMapping("/saveUser")
+//	public String registration(@ModelAttribute UserDto userDto) {
+//		this.userService.createUser(userDto);
+//		return "redirect:api/users/showUsers";
+//	}
 	
 
 }
