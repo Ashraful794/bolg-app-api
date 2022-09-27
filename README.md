@@ -1,2 +1,1 @@
-# bolg-app-api
-<img width="522" alt="Capturenew" src="https://user-images.githubusercontent.com/60617328/191167622-77a38415-5c55-47be-b182-63aaf383cb29.PNG">
+# bolg-app-api<img width="421" alt="friend" src="https://user-images.githubusercontent.com/60617328/192513211-1a64443f-181e-4be9-b3a4-1cd274ebd2dd.PNG">
