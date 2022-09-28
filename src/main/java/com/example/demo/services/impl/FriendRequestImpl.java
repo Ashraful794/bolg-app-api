@@ -149,8 +149,12 @@ public class FriendRequestImpl implements FriendService {
 		if(friend==null)
 		{
 			friend = this.friendRepo.findBySenderIdAndReceiverId( receiverId,senderId);
-
 		}
+		if(friend==null)
+		{
+			throw new Exceptions("Not found",HttpStatus.NOT_FOUND);
+		}
+
 		this.friendRepo.delete(friend);
 		throw new Exceptions("Successfully deleted ",HttpStatus.OK);
 
