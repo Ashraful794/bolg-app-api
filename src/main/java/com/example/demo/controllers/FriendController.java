@@ -2,6 +2,7 @@ package com.example.demo.controllers;
 
 import java.util.List;
 
+import com.example.demo.entities.Friend;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,6 +50,18 @@ public class FriendController {
 	@DeleteMapping("/api/deleteFriendRequest/{senderId}/{receiverId}")
 	public void deleteFriendRequest(@PathVariable Integer senderId, @PathVariable Integer receiverId) {
 		this.friendService.deleteFriendRequest(senderId, receiverId);
+	}
+
+	@GetMapping("/api/allFriend/{userId}")
+	public ResponseEntity<List<Friend>> getallFriend(@PathVariable Integer userId)
+	{
+		return new ResponseEntity<List<Friend>>(this.friendService.getAllfriend(userId),HttpStatus.OK);
+	}
+
+	@GetMapping("/api/friendsuggestions/{userId}")
+	public ResponseEntity<List<User>> friendSuggestion(@PathVariable Integer userId)
+	{
+		return  new ResponseEntity<List<User>>(this.friendService.friendSuggestion(userId),HttpStatus.OK);
 	}
 
 }

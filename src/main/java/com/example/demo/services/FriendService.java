@@ -18,5 +18,8 @@ public interface FriendService {
 	void rejectFriendRequest(Integer senderId, Integer receiverId);
 	
 	void deleteFriendRequest(Integer senderId, Integer receiverId);
+	List<Friend> getAllfriend(Integer id);
+	List<User> friendSuggestion(Integer userId);
+
 
 }

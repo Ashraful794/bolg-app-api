@@ -3,6 +3,7 @@ package com.example.demo.services.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,12 +35,13 @@ public class FriendRequestImpl implements FriendService {
 			throw new Exceptions("Can't Send Friend Request ", HttpStatus.BAD_REQUEST);
 		}
 
-		Friend findbysender = this.friendRepo.findBySenderIdAndReceiverId(senderId, recieverId);
-		Friend findbyreceiver = this.friendRepo.findBySenderIdAndReceiverId(recieverId, senderId);
 
-		if (findbysender != null || findbyreceiver != null) {
-			throw new Exceptions("Allready Send or Friends", HttpStatus.ALREADY_REPORTED);
+		Friend getFriend=this.friendRepo.getFrind(senderId,recieverId);
+
+		if (getFriend != null) {
+			throw new Exceptions("Allready Request Send or Friends", HttpStatus.ALREADY_REPORTED);
 		}
+
 
 		User sender = this.userRepo.findById(senderId)
 				.orElseThrow(() -> new ResourceNotFoundException("User", "id", senderId));
@@ -81,32 +83,22 @@ public class FriendRequestImpl implements FriendService {
 	public List<User> seeAllFriends(Integer id) {
 		// TODO Auto-generated method stub
 
-
-		List<Friend> receiverlist = this.friendRepo.findByReceiverIdAndRequest(id, Request.ACCEPTED);
-
-		List<Friend> senderlist = this.friendRepo.findBySenderIdAndRequest(id, Request.ACCEPTED);
-		
-
+		List<Friend> friendList = this.friendRepo.allFriends(id, Request.ACCEPTED);
 		List<User> userlist = new ArrayList<>();
 
-		for (Friend friend : receiverlist) {
-			Optional<User> user = this.userRepo.findById(friend.getSender().getId());
-
-			if (user.isPresent()) {
+		for (Friend friend : friendList) {
+			if (friend.getSender().getId() == id) {
+				Optional<User> user = this.userRepo.findById(friend.getReceiver().getId());
 				userlist.add(user.get());
+			} else {
+				Optional<User> user = this.userRepo.findById(friend.getSender().getId());
+				userlist.add(user.get());
+
 			}
 		}
 
-		for (Friend friend : senderlist) {
-			Optional<User> user = this.userRepo.findById(friend.getReceiver().getId());
-
-			if (user.isPresent()) {
-				userlist.add(user.get());
-			}
+			return userlist;
 		}
-
-		return userlist;
-	}
 
 	@Override
 	public void acceptFriendRequest(Integer senderId, Integer receiverId) {
@@ -134,6 +126,11 @@ public class FriendRequestImpl implements FriendService {
 
 		Friend friend = this.friendRepo.findBySenderIdAndReceiverId(senderId, receiverId);
 
+		if(friend==null)
+		{
+			throw new Exceptions("Friend Not Found",HttpStatus.NOT_FOUND);
+		}
+
 		friend.setRequest(Request.REJECTED);
 
 		this.friendRepo.save(friend);
@@ -144,12 +141,9 @@ public class FriendRequestImpl implements FriendService {
 	@Override
 	public void deleteFriendRequest(Integer senderId, Integer receiverId) {
 		// TODO Auto-generated method stub
-		Friend friend = this.friendRepo.findBySenderIdAndReceiverId(senderId, receiverId);
+
+		Friend friend=this.friendRepo.getFrind(senderId,receiverId);
 		
-		if(friend==null)
-		{
-			friend = this.friendRepo.findBySenderIdAndReceiverId( receiverId,senderId);
-		}
 		if(friend==null)
 		{
 			throw new Exceptions("Not found",HttpStatus.NOT_FOUND);
@@ -159,5 +153,50 @@ public class FriendRequestImpl implements FriendService {
 		throw new Exceptions("Successfully deleted ",HttpStatus.OK);
 
 	}
+
+	@Override
+
+	public List<Friend> getAllfriend(Integer id)
+	{
+		return this.friendRepo.allFriends(id,Request.ACCEPTED);
+	}
+
+
+	@Override
+	public List<User> friendSuggestion(Integer userId)
+	{
+		List<Friend> friends=this.friendRepo.allFriends(userId);
+
+		List<User> users=new ArrayList<>();
+
+		Optional<User> thisuser=this.userRepo.findById(userId);
+		users.add(thisuser.get());
+
+		for(Friend friend:friends)
+		{
+			if(friend.getSender().getId()==userId)
+			{
+				Optional<User> user=this.userRepo.findById(friend.getReceiver().getId());
+				users.add(user.get());
+			}
+			else
+			{
+				Optional<User> user=this.userRepo.findById(friend.getSender().getId());
+				users.add(user.get());
+
+			}
+		}
+
+		List<User> fromUser=this.userRepo.findAll();
+
+		List<User> suggestion=fromUser.stream().filter(elements->!users.contains(elements)).collect(Collectors.toList());
+
+
+		return suggestion;
+	}
+
+
+
+
 
 }
