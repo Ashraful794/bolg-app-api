@@ -52,11 +52,11 @@ public class FriendController {
 		this.friendService.deleteFriendRequest(senderId, receiverId);
 	}
 
-	@GetMapping("/api/allFriend/{userId}")
-	public ResponseEntity<List<Friend>> getallFriend(@PathVariable Integer userId)
-	{
-		return new ResponseEntity<List<Friend>>(this.friendService.getAllfriend(userId),HttpStatus.OK);
-	}
+//	@GetMapping("/api/allFriend/{userId}")
+//	public ResponseEntity<List<Friend>> getallFriend(@PathVariable Integer userId)
+//	{
+//		return new ResponseEntity<List<Friend>>(this.friendService.getAllfriend(userId),HttpStatus.OK);
+//	}
 
 	@GetMapping("/api/friendsuggestions/{userId}")
 	public ResponseEntity<List<User>> friendSuggestion(@PathVariable Integer userId)

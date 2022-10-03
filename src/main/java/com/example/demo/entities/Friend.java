@@ -2,15 +2,7 @@ package com.example.demo.entities;
 
 import java.util.Date;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,17 +16,18 @@ public class Friend {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	Integer id;
+	private Integer id;
 	
 	
-	@OneToOne
-	User sender;
+	@ManyToOne
+	private User sender;
 
-	
-	@OneToOne	
-	User receiver;
-	
-	Request request=Request.PENDING;
+
+	@ManyToOne
+	private User receiver;
+
+	@Enumerated(EnumType.STRING)
+	private Request request=Request.PENDING;
 	
 	
 

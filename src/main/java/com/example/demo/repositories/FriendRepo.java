@@ -14,24 +14,28 @@ public interface FriendRepo extends JpaRepository<Friend, Integer> {
 	
 	List<Friend> findByReceiverIdAndRequest(Integer receiverId,Request request);
 	
-	List<Friend> findBySenderIdAndRequest(Integer senderId,Request request);
-	
-	Friend findBySenderIdAndReceiverId(Integer senderId,Integer receiverId);
-	
-	List<Friend> findBySenderId(Integer senderId);
-	
-	List<Friend> findByReceiverId(Integer receiverId);
+//	List<Friend> findBySenderIdAndRequest(Integer senderId,Request request);
+//
+//	Friend findBySenderIdAndReceiverId(Integer senderId,Integer receiverId);
+//
+//	List<Friend> findBySenderId(Integer senderId);
+//
+//	List<Friend> findByReceiverId(Integer receiverId);
 
-	@Query("SELECT u FROM Friend u WHERE u.sender.id = :id or u.receiver.id = :id and u.request= :request")
-	List<Friend> allFriends(@Param("id") Integer id, @Param("request") Request request );
+	@Query("SELECT u FROM Friend u WHERE u.request= :request and u.sender.id = :id or u.receiver.id = :id ")
+	List<Friend> allAcceptedFriends(@Param("id") Integer id, @Param("request") Request request );
 
 
 
-	@Query("SELECT u FROM Friend u WHERE u.sender.id = :id or u.receiver.id = :id ")
+	@Query("SELECT u FROM Friend u WHERE u.sender.id = :id or u.receiver.id = :id")
 	List<Friend> allFriends(@Param("id") Integer id);
 
 	@Query("SELECT u FROM Friend u WHERE u.sender.id = :senderId and u.receiver.id = :receiverId  or u.sender.id = :receiverId and u.receiver.id = :senderId")
-	Friend getFrind(@Param("senderId") Integer senderId,@Param("receiverId") Integer receiverId);
-	
+	Friend getFriend(@Param("senderId") Integer senderId,@Param("receiverId") Integer receiverId);
+
+
+	@Query("SELECT u FROM Friend u WHERE u.request= :request and u.sender.id = :senderId and u.receiver.id = :receiverId ")
+	Friend findBy(Integer senderId,Integer receiverId,Request request);
+
 
 }

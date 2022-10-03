@@ -36,7 +36,7 @@ public class FriendRequestImpl implements FriendService {
 		}
 
 
-		Friend getFriend=this.friendRepo.getFrind(senderId,recieverId);
+		Friend getFriend=this.friendRepo.getFriend(senderId,recieverId);
 
 		if (getFriend != null) {
 			throw new Exceptions("Allready Request Send or Friends", HttpStatus.ALREADY_REPORTED);
@@ -83,19 +83,23 @@ public class FriendRequestImpl implements FriendService {
 	public List<User> seeAllFriends(Integer id) {
 		// TODO Auto-generated method stub
 
-		List<Friend> friendList = this.friendRepo.allFriends(id, Request.ACCEPTED);
+		List<Friend> friendList = this.friendRepo.allAcceptedFriends(id, Request.ACCEPTED);
 		List<User> userlist = new ArrayList<>();
 
 		for (Friend friend : friendList) {
-			if (friend.getSender().getId() == id) {
-				Optional<User> user = this.userRepo.findById(friend.getReceiver().getId());
-				userlist.add(user.get());
-			} else {
-				Optional<User> user = this.userRepo.findById(friend.getSender().getId());
-				userlist.add(user.get());
+
+				if (friend.getSender().getId() == id) {
+					Optional<User> user = this.userRepo.findById(friend.getReceiver().getId());
+					userlist.add(user.get());
+				} else {
+					Optional<User> user = this.userRepo.findById(friend.getSender().getId());
+					userlist.add(user.get());
+
+				}
 
 			}
-		}
+
+
 
 			return userlist;
 		}
@@ -104,12 +108,11 @@ public class FriendRequestImpl implements FriendService {
 	public void acceptFriendRequest(Integer senderId, Integer receiverId) {
 		// TODO Auto-generated method stub
 
-		Friend friend = this.friendRepo.findBySenderIdAndReceiverId(senderId, receiverId);
+		Friend friend = this.friendRepo.findBy(senderId, receiverId,Request.PENDING);
 
-		if(friend.getRequest()==Request.ACCEPTED)
+		if(friend==null)
 		{
-			throw new Exceptions("Already Friend",HttpStatus.BAD_REQUEST);
-
+			throw new Exceptions("Friend Not Found",HttpStatus.NOT_FOUND);
 		}
 		
 		friend.setRequest(Request.ACCEPTED);
@@ -124,12 +127,13 @@ public class FriendRequestImpl implements FriendService {
 	public void rejectFriendRequest(Integer senderId, Integer receiverId) {
 		// TODO Auto-generated method stub
 
-		Friend friend = this.friendRepo.findBySenderIdAndReceiverId(senderId, receiverId);
+		Friend friend = this.friendRepo.findBy(senderId, receiverId,Request.PENDING);
 
 		if(friend==null)
 		{
 			throw new Exceptions("Friend Not Found",HttpStatus.NOT_FOUND);
 		}
+
 
 		friend.setRequest(Request.REJECTED);
 
@@ -142,7 +146,7 @@ public class FriendRequestImpl implements FriendService {
 	public void deleteFriendRequest(Integer senderId, Integer receiverId) {
 		// TODO Auto-generated method stub
 
-		Friend friend=this.friendRepo.getFrind(senderId,receiverId);
+		Friend friend=this.friendRepo.getFriend(senderId,receiverId);
 		
 		if(friend==null)
 		{
@@ -158,7 +162,7 @@ public class FriendRequestImpl implements FriendService {
 
 	public List<Friend> getAllfriend(Integer id)
 	{
-		return this.friendRepo.allFriends(id,Request.ACCEPTED);
+		return this.friendRepo.allAcceptedFriends(id,Request.ACCEPTED);
 	}
 
 
