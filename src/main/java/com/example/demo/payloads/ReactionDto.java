@@ -15,12 +15,9 @@ public class ReactionDto {
 	
 
 	private Integer id;
+
 	@NotEmpty
 	private Reacts react;
-		
-//	private UserDto user;
-//	
-//	private PostDto post;
 
 
 }

@@ -37,7 +37,7 @@ public class CommentController {
 	public ResponseEntity<ApiResponse> createComment(@PathVariable Integer commentId,@PathVariable Integer userId)
 	{
 		this.commentService.deleteComment(commentId,userId);
-		return new ResponseEntity<ApiResponse>(new ApiResponse("Comment Deleted Succesfully",true),HttpStatus.CREATED);
+		return new ResponseEntity<ApiResponse>(new ApiResponse("Comment Deleted Succesfully"),HttpStatus.CREATED);
 	}
 	
 	@GetMapping("comments/post/{postId}")

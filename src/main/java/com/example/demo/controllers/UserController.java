@@ -7,17 +7,10 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-//import org.springframework.security.authentication.AuthenticationManager;
-//import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 //import com.example.demo.entities.AuthRequest;
@@ -31,7 +24,7 @@ import com.example.demo.services.UserService;
 public class UserController {
 	
 	@Autowired
-	UserService userService;	
+	UserService userService;
 	
 	@PostMapping("/")
 	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto ){
@@ -39,7 +32,14 @@ public class UserController {
 		UserDto createUserDto= this.userService.createUser(userDto);
 		return new ResponseEntity<>(createUserDto,HttpStatus.CREATED);
 	}
-	
+
+
+	@PostMapping("/login")
+	public void login(@RequestBody UserDto userDto)
+	{
+		this.userService.login(userDto);
+	}
+
 	@PutMapping("/{userId}")
 	public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto, @PathVariable Integer userId)
 	{
@@ -53,7 +53,7 @@ public class UserController {
 	{
 		this.userService.deleteUSer(userId);
 		
-		return new ResponseEntity<ApiResponse>(new ApiResponse("User deleted",true),HttpStatus.OK);
+		return new ResponseEntity<ApiResponse>(new ApiResponse("User deleted"),HttpStatus.OK);
 	}
 	
 	@GetMapping("/")
@@ -67,7 +67,8 @@ public class UserController {
 	{
 		return ResponseEntity.ok(this.userService.getUserById(userid));
 	}
-	
+
+
 	@GetMapping("/showUsers")
 	public ModelAndView showUsers()
 	{
@@ -90,5 +91,8 @@ public class UserController {
 		return "redirect:/api/users/showUsers";
 	}
 	
+
+
+
 
 }

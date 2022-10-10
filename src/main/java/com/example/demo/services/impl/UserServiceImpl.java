@@ -1,10 +1,13 @@
 package com.example.demo.services.impl;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.example.demo.exceptions.Exceptions;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entities.User;
@@ -74,6 +77,20 @@ public class UserServiceImpl implements UserService {
 		
 		this.userRepo.delete(user);
 				
+	}
+
+	@Override
+	public void login(UserDto userDto) {
+
+		User user =this.userRepo.findByNameAndPassword(userDto.getName(),userDto.getPassword());
+
+		if(user==null)
+		{
+			throw new Exceptions("Invalid UserName or Password",HttpStatus.NOT_FOUND);
+		}
+		throw new Exceptions("Successfully login",HttpStatus.OK);
+
+
 	}
 
 }

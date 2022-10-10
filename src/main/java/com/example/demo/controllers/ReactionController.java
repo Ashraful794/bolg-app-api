@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.example.demo.entities.Reaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,7 @@ public class ReactionController {
 	ReactionService reactionService;
 	
 	@PostMapping("/post/{postId}/user/{userId}/reacts")
-	public ResponseEntity<ReactionDto> createReact(@Valid @RequestBody ReactionDto react,@PathVariable Integer userId,@PathVariable Integer postId)
+	public ResponseEntity<ReactionDto> createReact(@RequestBody ReactionDto react,@PathVariable Integer userId,@PathVariable Integer postId)
 	{
 		ReactionDto createReact=this.reactionService.addReact(react,userId, postId);
 				
@@ -41,6 +42,19 @@ public class ReactionController {
 	{
 		return ResponseEntity.ok(this.reactionService.getPostReactions(postId));		
 	}
+
+	@GetMapping("posts/{postId}/total-like")
+	public Integer getTotalLike(@PathVariable Integer postId)
+	{
+		return this.reactionService.getTotalLikePost(postId);
+	}
+
+	@GetMapping("posts/{postId}/total-Dislike")
+	public Integer getTotalDisLike(@PathVariable Integer postId)
+	{
+		return this.reactionService.getTotalDisLikePost(postId);
+	}
+
 	
 	
 }

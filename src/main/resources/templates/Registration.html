@@ -33,14 +33,14 @@
 			<div class="col-md-6 col-md-offset-3">
 
 				<!-- success message -->
-				<div th:if="${param.success}">
+				<div th:if="${param.Success}">
 					<div class="alert alert-info">You've successfully registered
-						to our awesome app!</div>
+						</div>
 				</div>
 
 				<h1>Registration</h1>
 
-				<form th:action="@{/api/users/saveUser}" method="post" th:object="${user}">
+				<form th:action="@{/registration/saveUser}" method="post" th:object="${user}">
 					<div class="form-group">
 						<label class="control-label" for="Name"> Name </label> <input
 							id="name" class="form-control" th:field="*{name}" required
@@ -68,9 +68,13 @@
 
 					<div class="form-group">
 						<button type="submit" class="btn btn-success">Register</button>
+						<span>Already registered? <a href="/" th:href="@{/login}">Login
+								here</a></span>
 					</div>
 
 				</form>
+
+
 			</div>
 		</div>
 	</div>

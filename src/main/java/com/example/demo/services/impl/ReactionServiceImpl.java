@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.example.demo.entities.Reacts;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -64,7 +65,7 @@ public class ReactionServiceImpl implements ReactionService {
 		reaction.setUser(user);
 		
 		Reaction savedReaction=this.reactionRepo.save(reaction);
-		
+
 		return this.modelMapper.map(savedReaction, ReactionDto.class);
 				
 		
@@ -136,8 +137,17 @@ public class ReactionServiceImpl implements ReactionService {
 		this.reactionRepo.delete(reaction);
 		
 	}
-	
-	
-	
+
+	@Override
+	public Integer getTotalLikePost(Integer postId) {
+
+		return this.reactionRepo.getTotalPostLike(postId, Reacts.Like);
+	}
+
+	@Override
+	public Integer getTotalDisLikePost(Integer postId) {
+		return this.reactionRepo.getTotalPostDisLike(postId,Reacts.Dislike);
+	}
+
 
 }

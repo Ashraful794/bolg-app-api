@@ -15,6 +15,7 @@ import lombok.Setter;
 @Getter
 
 public class UserDto {
+
 	private Integer id;
 	
 	@NotEmpty
@@ -31,7 +32,5 @@ public class UserDto {
 	@NotEmpty
 	private String about;
 	
-//	private Set<CommentDto> comments=new HashSet<>();
-//	
-//	private Set<ReactionDto> reacts=new HashSet<>();
+
 }

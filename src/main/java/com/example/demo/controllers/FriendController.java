@@ -2,30 +2,35 @@ package com.example.demo.controllers;
 
 import java.util.List;
 
-import com.example.demo.entities.Friend;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Role;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entities.User;
 import com.example.demo.services.FriendService;
 
-@RestController
+import javax.validation.Valid;
+
+@Controller
 public class FriendController {
 
 	@Autowired
 	FriendService friendService;
+
 
 	@PostMapping("/api/sendFriendRequest/{senderId}/{receiverId}")
 	public void sendFriendRequest(@PathVariable Integer senderId, @PathVariable Integer receiverId) {
 		this.friendService.sendFriendRequest(senderId, receiverId);
 
 	}
+
 
 	@GetMapping("/api/seeFriendRequest/{userId}")
 	public ResponseEntity<List<User>> getAllFriendRequest(@PathVariable Integer userId) {
@@ -63,5 +68,6 @@ public class FriendController {
 	{
 		return  new ResponseEntity<List<User>>(this.friendService.friendSuggestion(userId),HttpStatus.OK);
 	}
+
 
 }

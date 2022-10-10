@@ -24,10 +24,9 @@ import lombok.Setter;
 public class Reaction {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	
-	@Column(nullable=false)
+
 	@Enumerated(EnumType.STRING)
 	private Reacts react;
 	

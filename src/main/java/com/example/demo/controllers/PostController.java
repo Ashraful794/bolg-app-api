@@ -35,7 +35,9 @@ public class PostController {
 		PostDto createPost=this.postService.createPost(postDto, userId);
 		return new ResponseEntity<PostDto>(createPost,HttpStatus.CREATED);
 	}
-	
+
+
+
 	@GetMapping("/user/{userId}/posts")
 	public ResponseEntity<List<PostDto>> getPostsByUser(@PathVariable Integer userId)
 	{
@@ -62,7 +64,7 @@ public class PostController {
 	{
 		this.postService.deletePost(postId,userId);
 		
-		return new ResponseEntity<ApiResponse>(new ApiResponse("Post is Successfully Deleted",true),HttpStatus.OK);
+		return new ResponseEntity<ApiResponse>(new ApiResponse("Post is Successfully Deleted"),HttpStatus.OK);
 	}
 	
 	@PutMapping("/posts/{postId}")
